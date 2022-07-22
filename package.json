@@ -8,7 +8,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx}": "prettier --config=.prettierrc --write"
+    "*.{js,jsx,json}": "prettier --config=.prettierrc --write"
   },
   "devDependencies": {
     "husky": "^8.0.1",
