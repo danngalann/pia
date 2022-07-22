@@ -2,10 +2,14 @@ version: '3.1'
 
 services:
   mongo:
+    container_name: pia_db
     image: mongo
     restart: always
     ports:
       - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongodb-data:/data/db
+
+volumes:
+  mongodb-data:
+    driver: local
