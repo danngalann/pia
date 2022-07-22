@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose');
+const { Schema, model } = require('mongoose');
 const { isEmail } = require('validator');
 
 const SALT_WORK_FACTOR = 10;
@@ -44,6 +44,6 @@ userSchema.methods.validatePassword = (candidatePassword, cb) => {
   });
 };
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
