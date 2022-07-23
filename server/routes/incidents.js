@@ -13,6 +13,19 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/:id/update/status').patch((req, res) => {
+  Incident.findById(req.params.id)
+    .then(incident => {
+      incident.status = req.body.status;
+
+      incident
+        .save()
+        .then(() => res.json(incident))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/add').post((req, res) => {
   const project = req.body.project;
   const message = req.body.message;
@@ -22,7 +35,7 @@ router.route('/add').post((req, res) => {
 
   newIncident
     .save()
-    .then(() => res.json('Incident added!'))
+    .then(() => res.json(newIncident))
     .catch(err => res.status(400).json(err.message));
 });
 

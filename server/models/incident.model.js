@@ -18,7 +18,7 @@ const incidentSchema = new Schema(
     status: {
       type: String,
       required: true,
-      enum: ['open', 'researching', 'identified', 'closed'],
+      enum: ['open', 'investigating', 'identified', 'closed'],
       default: 'open',
       index: true,
     },
