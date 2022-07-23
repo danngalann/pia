@@ -8,15 +8,18 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+  User.countDocuments().then(count => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const isAdmin = count === 0;
 
-  const newUser = new User({ email, password });
+    const newUser = new User({ email, password, isAdmin });
 
-  newUser
-    .save()
-    .then(() => res.json('User added!'))
-    .catch(err => res.status(400).json(err.message));
+    newUser
+      .save()
+      .then(() => res.json('User added!'))
+      .catch(err => res.status(400).json(err.message));
+  });
 });
 
 module.exports = router;

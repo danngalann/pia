@@ -14,6 +14,7 @@ const userSchema = new Schema(
       validate: [isEmail, 'invalid email'],
     },
     password: { type: String, required: true },
+    isAdmin: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
