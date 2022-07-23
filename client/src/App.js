@@ -1,6 +1,7 @@
 import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Home from './pages/Home';
 
 function App() {
