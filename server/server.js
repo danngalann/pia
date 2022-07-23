@@ -23,5 +23,8 @@ connection.once('open', () => {
 const usersRouter = require('./routes/users');
 app.use('/users', usersRouter);
 
+const configRouter = require('./routes/config');
+app.use('/config', configRouter);
+
 // Start server
 app.listen(port, () => console.log(`Server started on port ${port}`));
