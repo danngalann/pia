@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const { isEmail } = require('validator');
+const bcrypt = require('bcrypt');
 
 const SALT_WORK_FACTOR = 10;
 
@@ -17,7 +18,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-userSchema.pre('save', next => {
+userSchema.pre('save', function (next) {
   var user = this;
 
   // only hash the password if it has been modified (or is new)
