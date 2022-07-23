@@ -26,5 +26,8 @@ app.use('/users', usersRouter);
 const configRouter = require('./routes/config');
 app.use('/config', configRouter);
 
+const incidentsRouter = require('./routes/incidents');
+app.use('/incidents', incidentsRouter);
+
 // Start server
 app.listen(port, () => console.log(`Server started on port ${port}`));

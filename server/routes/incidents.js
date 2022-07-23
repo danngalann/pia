@@ -1,0 +1,29 @@
+const router = require('express').Router();
+const Incident = require('../models/incident.model');
+
+router.route('/').get((req, res) => {
+  Incident.find()
+    .then(incidents => res.json(incidents))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').get((req, res) => {
+  Incident.findById(req.params.id)
+    .then(incident => res.json(incident))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/add').post((req, res) => {
+  const project = req.body.project;
+  const message = req.body.message;
+  const trace = req.body.trace;
+
+  const newIncident = new Incident({ project, message, trace });
+
+  newIncident
+    .save()
+    .then(() => res.json('Incident added!'))
+    .catch(err => res.status(400).json(err.message));
+});
+
+module.exports = router;
