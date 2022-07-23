@@ -1,5 +1,7 @@
-import { MantineProvider, ColorSchemeProvider, Title } from '@mantine/core';
+import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
 
 function App() {
   // Try to detect the user's preferred color scheme via media query
@@ -28,7 +30,14 @@ function App() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <Title>Hello world</Title>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={<Home />}
+            />
+          </Routes>
+        </BrowserRouter>
       </MantineProvider>
     </ColorSchemeProvider>
   );
