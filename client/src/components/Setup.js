@@ -1,9 +1,28 @@
 import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, Button } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { IconLock, IconAt } from '@tabler/icons';
 import React from 'react';
 
 export default function Setup() {
   const { classes } = useStyles();
+  const form = useForm({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate: {
+      email: value => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      password: value => (value.length < 8 ? 'Password must be at least 8 characters' : null),
+    },
+  });
+
+  const submitUser = formData => {
+    const userData = {
+      ...formData,
+    };
+
+    console.log(userData); // TODO send to server
+  };
 
   return (
     <Center style={{ height: '100vh' }}>
@@ -20,31 +39,28 @@ export default function Setup() {
             administrator.
           </Text>
         </div>
-        <Stack>
-          <TextInput
-            label="Email address"
-            placeholder="johndoe@yourcompany.com"
-            radius="md"
-            size="md"
-            icon={<IconAt size={16} />}
-            required
-          />
-          <PasswordInput
-            label="Password"
-            radius="md"
-            size="md"
-            icon={<IconLock size={16} />}
-            required
-          />
-          <PasswordInput
-            label="Repeat password"
-            radius="md"
-            size="md"
-            icon={<IconLock size={16} />}
-            required
-          />
-          <Button>Finish setup</Button>
-        </Stack>
+        <form onSubmit={form.onSubmit(submitUser)}>
+          <Stack>
+            <TextInput
+              label="Email address"
+              placeholder="johndoe@yourcompany.com"
+              radius="md"
+              size="md"
+              icon={<IconAt size={16} />}
+              required
+              {...form.getInputProps('email')}
+            />
+            <PasswordInput
+              label="Password"
+              radius="md"
+              size="md"
+              icon={<IconLock size={16} />}
+              required
+              {...form.getInputProps('password')}
+            />
+            <Button type="submit">Finish setup</Button>
+          </Stack>
+        </form>
       </Stack>
     </Center>
   );
