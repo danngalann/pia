@@ -1,6 +1,7 @@
 import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, Button } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { IconLock, IconAt } from '@tabler/icons';
+import { showNotification } from '@mantine/notifications';
+import { IconLock, IconAt, IconX } from '@tabler/icons';
 import React from 'react';
 import { createUser } from '../api/user';
 
@@ -27,7 +28,13 @@ export default function Setup() {
         console.log(res); // TODO Get auth token and log in
       })
       .catch(err => {
-        console.error(err);
+        showNotification({
+          title: 'Error',
+          message: err.message,
+          icon: <IconX />,
+          color: 'red',
+          autoClose: 5000,
+        });
       });
   };
 

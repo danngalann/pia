@@ -1,4 +1,5 @@
 import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -31,14 +32,16 @@ function App() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={<Home />}
-            />
-          </Routes>
-        </BrowserRouter>
+        <NotificationsProvider position="bottom-right">
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={<Home />}
+              />
+            </Routes>
+          </BrowserRouter>
+        </NotificationsProvider>
       </MantineProvider>
     </ColorSchemeProvider>
   );
