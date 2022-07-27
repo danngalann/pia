@@ -16,8 +16,8 @@ router.route('/add').post((req, res) => {
     const newUser = new User({ email, password, isAdmin });
 
     newUser
-      .save()
-      .then(() => res.json('User added!'))
+      // .save()
+      .then(() => res.json('User added!')) // TODO Should return auth token
       .catch(err => res.status(400).json(err.message));
   });
 });
