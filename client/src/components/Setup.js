@@ -2,6 +2,7 @@ import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, But
 import { useForm } from '@mantine/form';
 import { IconLock, IconAt } from '@tabler/icons';
 import React from 'react';
+import { createUser } from '../api/user';
 
 export default function Setup() {
   const { classes } = useStyles();
@@ -21,7 +22,13 @@ export default function Setup() {
       ...formData,
     };
 
-    console.log(userData); // TODO send to server
+    createUser(userData)
+      .then(res => {
+        console.log(res); // TODO Get auth token and log in
+      })
+      .catch(err => {
+        console.error(err);
+      });
   };
 
   return (
@@ -39,7 +46,7 @@ export default function Setup() {
             administrator.
           </Text>
         </div>
-        <form onSubmit={form.onSubmit(submitUser)}>
+        <form>
           <Stack>
             <TextInput
               label="Email address"
@@ -58,7 +65,7 @@ export default function Setup() {
               required
               {...form.getInputProps('password')}
             />
-            <Button type="submit">Finish setup</Button>
+            <Button onClick={form.onSubmit(submitUser)}>Finish setup</Button>
           </Stack>
         </form>
       </Stack>
