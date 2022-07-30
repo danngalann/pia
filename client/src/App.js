@@ -4,6 +4,7 @@ import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   // Try to detect the user's preferred color scheme via media query
@@ -23,27 +24,29 @@ function App() {
   useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
   return (
-    <ColorSchemeProvider
-      colorScheme={colorScheme}
-      toggleColorScheme={toggleColorScheme}
-    >
-      <MantineProvider
-        theme={{ colorScheme }}
-        withGlobalStyles
-        withNormalizeCSS
+    <AuthProvider>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}
       >
-        <NotificationsProvider position="bottom-right">
-          <BrowserRouter>
-            <Routes>
-              <Route
-                path="/"
-                element={<Home />}
-              />
-            </Routes>
-          </BrowserRouter>
-        </NotificationsProvider>
-      </MantineProvider>
-    </ColorSchemeProvider>
+        <MantineProvider
+          theme={{ colorScheme }}
+          withGlobalStyles
+          withNormalizeCSS
+        >
+          <NotificationsProvider position="bottom-right">
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Home />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </NotificationsProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </AuthProvider>
   );
 }
 

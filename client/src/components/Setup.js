@@ -2,11 +2,14 @@ import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, But
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createUser } from '../api/user';
+import { useAuth } from '../context/AuthContext';
 
 export default function Setup() {
   const { classes } = useStyles();
+  const { token, setToken } = useAuth();
+
   const form = useForm({
     initialValues: {
       email: '',
@@ -25,7 +28,8 @@ export default function Setup() {
 
     createUser(userData)
       .then(res => {
-        console.log(res); // TODO Get auth token and log in
+        setToken(res.data.accessToken);
+        // TODO Redirect to incidents page
       })
       .catch(err => {
         showNotification({
