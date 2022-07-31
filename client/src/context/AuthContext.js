@@ -14,7 +14,11 @@ function useAuth() {
 
 function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
-  return <AuthContext.Provider value={{ token, setToken }}>{children}</AuthContext.Provider>;
+  const [refreshToken, setRefreshToken] = useState(null);
+
+  return (
+    <AuthContext.Provider value={{ token, setToken, refreshToken, setRefreshToken }}>{children}</AuthContext.Provider>
+  );
 }
 
 export { AuthProvider, useAuth };

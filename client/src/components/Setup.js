@@ -2,13 +2,13 @@ import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, But
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createUser } from '../api/user';
 import { useAuth } from '../context/AuthContext';
 
 export default function Setup() {
   const { classes } = useStyles();
-  const { token, setToken } = useAuth();
+  const { setToken, setRefreshToken } = useAuth();
 
   const form = useForm({
     initialValues: {
@@ -29,6 +29,7 @@ export default function Setup() {
     createUser(userData)
       .then(res => {
         setToken(res.data.accessToken);
+        setRefreshToken(res.data.refreshToken); // TODO Implement some way to refresh tokens
         // TODO Redirect to incidents page
       })
       .catch(err => {
