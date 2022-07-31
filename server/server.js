@@ -35,5 +35,8 @@ app.use('/config', configRouter);
 const incidentsRouter = require('./routes/incidents');
 app.use('/incidents', incidentsRouter);
 
+const authRouter = require('./routes/auth');
+app.use('/auth', authRouter);
+
 // Start server
 app.listen(port, () => console.log(`Server started on port ${port}`));

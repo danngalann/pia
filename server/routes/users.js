@@ -1,6 +1,9 @@
 const router = require('express').Router();
-const jwt = require('jsonwebtoken');
+
+const TokenManager = require('../auth/TokenManager');
 const User = require('../models/user.model');
+
+const tokenManager = new TokenManager();
 
 router.route('/').get((req, res) => {
   User.find()
@@ -21,9 +24,10 @@ router.route('/add').post((req, res) => {
       .then(() => {
         // If the user is the first one, log them in as an admin
         if (isAdmin) {
-          const accessToken = jwt.sign({ email }, process.env.JWT_SECRET);
+          const accessToken = tokenManager.generateAccessToken({ email });
+          const refreshToken = tokenManager.generateRefreshToken({ email });
 
-          res.json({ accessToken });
+          res.json({ accessToken, refreshToken });
         }
       })
       .catch(err => res.status(400).json(err.message));
