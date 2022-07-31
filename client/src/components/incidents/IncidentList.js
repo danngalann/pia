@@ -2,8 +2,8 @@ import { Table } from '@mantine/core';
 import React from 'react';
 import useSWR from 'swr';
 
-import { fetcher } from '../api/fetcher';
-import StatusBadge from './StatusBadge';
+import { fetcher } from '../../api/fetcher';
+import StatusBadge from '../StatusBadge';
 
 function Incident({ data }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();

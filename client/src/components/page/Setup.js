@@ -3,8 +3,8 @@ import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
 import React from 'react';
-import { createUser } from '../api/user';
-import { useAuth } from '../context/AuthContext';
+import { createUser } from '../../api/user';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Setup() {
   const { classes } = useStyles();
