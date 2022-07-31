@@ -1,13 +1,13 @@
 import React, { Suspense } from 'react';
-import { Loader } from '@mantine/core';
 
 import IncidentList from '../components/incidents/IncidentList';
 import Page from '../components/page/Page';
+import CenteredLoader from '../components/common/CenteredLoader';
 
 export default function Incidents() {
   return (
     <Page>
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<CenteredLoader />}>
         <IncidentList />
       </Suspense>
     </Page>
