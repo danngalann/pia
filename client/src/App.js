@@ -2,13 +2,10 @@ import { MantineProvider, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { useHotkeys, useLocalStorage, useColorScheme } from '@mantine/hooks';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { IconX } from '@tabler/icons';
-import { showNotification } from '@mantine/notifications';
 
 import Home from './pages/Home';
-import { AuthProvider } from './context/AuthContext';
 import Incidents from './pages/Incidents';
-import { SWRConfig } from 'swr';
+import ApiConfig from './components/api/ApiConfig';
 
 function App() {
   // Try to detect the user's preferred color scheme via media query
@@ -28,47 +25,33 @@ function App() {
   useHotkeys([['mod+J', () => toggleColorScheme()]]);
 
   return (
-    <AuthProvider>
-      <ColorSchemeProvider
-        colorScheme={colorScheme}
-        toggleColorScheme={toggleColorScheme}
+    <ColorSchemeProvider
+      colorScheme={colorScheme}
+      toggleColorScheme={toggleColorScheme}
+    >
+      <MantineProvider
+        theme={{ colorScheme }}
+        withGlobalStyles
+        withNormalizeCSS
       >
-        <MantineProvider
-          theme={{ colorScheme }}
-          withGlobalStyles
-          withNormalizeCSS
-        >
-          <NotificationsProvider position="bottom-right">
-            <SWRConfig
-              value={{
-                onError: (error, key) => {
-                  showNotification({
-                    title: 'Error',
-                    message: error,
-                    icon: <IconX />,
-                    color: 'red',
-                    autoClose: 5000,
-                  });
-                },
-              }}
-            >
-              <BrowserRouter>
-                <Routes>
-                  <Route
-                    path="/"
-                    element={<Home />}
-                  />
-                  <Route
-                    path="/incidents"
-                    element={<Incidents />}
-                  />
-                </Routes>
-              </BrowserRouter>
-            </SWRConfig>
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
-    </AuthProvider>
+        <NotificationsProvider position="bottom-right">
+          <ApiConfig>
+            <BrowserRouter>
+              <Routes>
+                <Route
+                  path="/"
+                  element={<Home />}
+                />
+                <Route
+                  path="/incidents"
+                  element={<Incidents />}
+                />
+              </Routes>
+            </BrowserRouter>
+          </ApiConfig>
+        </NotificationsProvider>
+      </MantineProvider>
+    </ColorSchemeProvider>
   );
 }
 

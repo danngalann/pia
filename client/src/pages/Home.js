@@ -13,5 +13,5 @@ export default function Home() {
     return <Loader />;
   }
 
-  return data ? <Setup /> : <Navigate to="/incidents" />;
+  return data ? <Setup /> : <Navigate to="/incidents" />; // TODO Navigate to login if no auth is present
 }

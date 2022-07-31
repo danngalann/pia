@@ -31,17 +31,24 @@ router.route('/login').post((req, res) => {
   });
 });
 
-router.route('/refresh').post((req, res) => {
-  const refreshToken = req.body.refreshToken;
+router.route('/refresh-token').get((req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'No refresh token' });
+  }
 
   tokenManager.refreshToken(refreshToken, (err, email) => {
     if (err) {
-      return res.status(401).json({ error: 'Invalid refresh token' });
+      return res.status(401).json({ error: err });
     }
 
     const accessToken = tokenManager.generateAccessToken({ email });
 
-    res.json({ accessToken });
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+    });
+    res.sendStatus(200);
   });
 });
 
