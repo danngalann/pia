@@ -3,6 +3,7 @@ import React from 'react';
 import useSWR from 'swr';
 
 import { fetcher } from '../api/fetcher';
+import StatusBadge from './StatusBadge';
 
 function Incident({ data }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();
@@ -11,7 +12,9 @@ function Incident({ data }) {
     <tr>
       <td>{data.project}</td>
       <td>{dateFormatted}</td>
-      <td>{data.status}</td>
+      <td>
+        <StatusBadge status={data.status} />
+      </td>
     </tr>
   );
 }
