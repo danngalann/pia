@@ -2,7 +2,7 @@ const router = require('express').Router();
 const authenticationMiddleware = require('../auth/authenticationMiddleware');
 const Incident = require('../models/incident.model');
 
-router.route('/').get(authenticationMiddleware, (req, res) => {
+router.route('/').get((req, res) => {
   Incident.find()
     .then(incidents => res.json(incidents))
     .catch(err => res.status(400).json('Error: ' + err));
