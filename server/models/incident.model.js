@@ -8,7 +8,6 @@ const incidentSchema = new Schema(
       trim: true,
       minlength: 3,
       maxlength: 100,
-      unique: true,
       index: true,
     },
     message: {
