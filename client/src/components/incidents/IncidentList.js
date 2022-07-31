@@ -3,7 +3,7 @@ import React from 'react';
 import useSWR from 'swr';
 
 import { fetcher } from '../../api/fetcher';
-import StatusBadge from '../StatusBadge';
+import StatusBadge from '../common/StatusBadge';
 
 function Incident({ data }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();
