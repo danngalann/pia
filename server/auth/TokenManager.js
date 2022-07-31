@@ -8,18 +8,18 @@ class TokenManager {
   }
 
   generateAccessToken(data) {
-    return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '5m' });
+    return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '2m' });
   }
 
   generateRefreshToken(data) {
     const refreshToken = jwt.sign(data, process.env.JWT_SECRET);
-    refreshTokens.push(refreshToken);
+    this.refreshTokens.push(refreshToken);
     return refreshToken;
   }
 
   refreshToken(refreshToken, callback) {
     // Check if token is present on refreshTokens array
-    if (refreshTokens.indexOf(refreshToken) === -1) {
+    if (this.refreshTokens.indexOf(refreshToken) === -1) {
       return callback('Invalid refresh token');
     }
 
@@ -33,7 +33,7 @@ class TokenManager {
   }
 
   revokeRefreshToken(refreshToken) {
-    const index = refreshTokens.indexOf(refreshToken);
+    const index = this.refreshTokens.indexOf(refreshToken);
     if (index !== -1) {
       refreshTokens.splice(index, 1);
     }
