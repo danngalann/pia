@@ -1,6 +1,8 @@
 import { Loader } from '@mantine/core';
 import React from 'react';
 import useSWR from 'swr';
+import { Navigate } from 'react-router-dom';
+
 import { fetcher } from '../api/fetcher';
 import Setup from '../components/Setup';
 
@@ -11,5 +13,5 @@ export default function Home() {
     return <Loader />;
   }
 
-  return data ? <Setup /> : <div>Home</div>;
+  return data ? <Setup /> : <Navigate to="/incidents" />;
 }
