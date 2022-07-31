@@ -1,9 +1,8 @@
 import { Table } from '@mantine/core';
 import React from 'react';
-import useSWR from 'swr';
-
-import { fetcher } from '../../api/fetcher';
+import { useIncidents } from '../../api/incident';
 import StatusBadge from '../common/StatusBadge';
+import CenteredLoader from '../common/CenteredLoader';
 
 function Incident({ data }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();
@@ -20,7 +19,19 @@ function Incident({ data }) {
 }
 
 function IncidentList() {
-  const { data } = useSWR('http://localhost:5000/incidents', fetcher, { suspense: true });
+  const { incidents, isLoading, error } = useIncidents();
+
+  if (isLoading) {
+    return <CenteredLoader />;
+  }
+
+  if (error) {
+    if (error.name === 'AxiosError' && error.response.status === 403) {
+      return <CenteredLoader />;
+    }
+
+    return <div>{error.message}</div>;
+  }
 
   return (
     <Table>
@@ -32,7 +43,7 @@ function IncidentList() {
         </tr>
       </thead>
       <tbody>
-        {data.map(incident => (
+        {incidents.map(incident => (
           <Incident
             key={incident._id}
             data={incident}

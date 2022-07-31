@@ -8,12 +8,12 @@ class TokenManager {
   }
 
   generateAccessToken(data) {
-    return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '2m' });
+    return jwt.sign(data, process.env.JWT_SECRET, { expiresIn: '10m' });
   }
 
   generateRefreshToken(data) {
     const refreshToken = jwt.sign(data, process.env.JWT_SECRET);
-    this.refreshTokens.push(refreshToken);
+    this.refreshTokens.push(refreshToken); // TODO This is being lost at some poing. Investigate.
     return refreshToken;
   }
 

@@ -8,6 +8,10 @@ export default function ApiConfig({ children }) {
     <SWRConfig
       value={{
         onError: (error, key) => {
+          if (error.name === 'AxiosError' && error.response.status === 403) {
+            // Don't show errors for token refresh. It's handled by retries.
+            return;
+          }
           showNotification({
             title: 'Error',
             message: error.message,
@@ -20,7 +24,7 @@ export default function ApiConfig({ children }) {
           // Never retry on 404.
           if (error.status === 404) return;
 
-          if (error.status === 403) {
+          if (error.name === 'AxiosError' && error.response.status === 403) {
             revalidateToken();
           }
 
