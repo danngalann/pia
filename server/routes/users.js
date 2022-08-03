@@ -22,19 +22,7 @@ router.route('/add').post((req, res) => {
     newUser
       .save()
       .then(() => {
-        // If the user is the first one, log them in as an admin
-        if (isAdmin) {
-          const accessToken = tokenManager.generateAccessToken({ email });
-          const refreshToken = tokenManager.generateRefreshToken({ email });
-
-          res.cookie('accessToken', accessToken, {
-            httpOnly: true,
-          });
-          res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-          });
-          res.sendStatus(200);
-        }
+        res.sendStatus(200);
       })
       .catch(err => res.status(400).json(err.message));
   });

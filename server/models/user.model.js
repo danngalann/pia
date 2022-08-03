@@ -15,6 +15,7 @@ const userSchema = new Schema(
     },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false },
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );
@@ -39,11 +40,15 @@ userSchema.pre('save', function (next) {
   });
 });
 
-userSchema.methods.validatePassword = (candidatePassword, cb) => {
+userSchema.methods.validatePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
   });
+};
+
+userSchema.methods.updateRefreshToken = refreshToken => {
+  this.refreshToken = refreshToken;
 };
 
 const User = model('User', userSchema);

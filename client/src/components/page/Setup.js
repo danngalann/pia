@@ -3,10 +3,13 @@ import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
 import React from 'react';
-import { createUser } from '../../api/user';
+import { useNavigate } from 'react-router-dom';
+
+import { createUser, login } from '../../api/user';
 
 export default function Setup() {
   const { classes } = useStyles();
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -25,9 +28,10 @@ export default function Setup() {
     };
 
     createUser(userData)
-      .then(res => {
-        // TODO Set a Context state with user data
-        // TODO Redirect to incidents page
+      .then(() => {
+        login(userData).then(() => {
+          navigate('/incidents');
+        });
       })
       .catch(err => {
         showNotification({

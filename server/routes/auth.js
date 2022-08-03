@@ -9,24 +9,47 @@ router.route('/login').post((req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email }).then(user => {
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+  User.findOne({ email }, (err, user) => {
+    if (err) {
+      res.status(500).json('Error: ' + err);
+      return;
     }
 
-    user.validatePassword(password, (err, isMatch) => {
+    if (!user) {
+      res.status(400).json('Invalid email or password');
+      return;
+    }
+
+    user.validatePassword(password, (err, isValid) => {
       if (err) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        res.status(400).json('Error: ' + err);
+        return;
       }
 
-      if (!isMatch) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+      if (!isValid) {
+        res.status(400).json('Invalid email or password');
+        return;
       }
 
-      const accessToken = tokenManager.generateAccessToken({ email });
-      const refreshToken = tokenManager.generateRefreshToken({ email });
+      if (isValid) {
+        const refreshToken = tokenManager.generateRefreshToken({ email });
+        const accessToken = tokenManager.generateAccessToken({ email });
 
-      res.json({ accessToken, refreshToken });
+        user.refreshToken = refreshToken;
+
+        user
+          .save()
+          .then(() => {
+            res.cookie('accessToken', accessToken, {
+              httpOnly: true,
+            });
+            res.cookie('refreshToken', refreshToken, {
+              httpOnly: true,
+            });
+            res.sendStatus(200);
+          })
+          .catch(err => res.status(400).json(err.message));
+      }
     });
   });
 });
