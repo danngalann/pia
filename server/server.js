@@ -3,8 +3,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 
-require('dotenv').config();
-
 // App definition
 const app = express();
 const port = process.env.PORT || 5000;

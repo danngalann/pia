@@ -4,7 +4,6 @@ specifiers:
   bcrypt: ^5.0.1
   cookie-parser: ^1.4.6
   cors: ^2.8.5
-  dotenv: ^16.0.1
   express: ^4.18.1
   jsonwebtoken: ^8.5.1
   mongoose: ^6.4.6
@@ -14,7 +13,6 @@ dependencies:
   bcrypt: 5.0.1
   cookie-parser: 1.4.6
   cors: 2.8.5
-  dotenv: 16.0.1
   express: 4.18.1
   jsonwebtoken: 8.5.1
   mongoose: 6.4.6
@@ -279,11 +277,6 @@ packages:
   /detect-libc/2.0.1:
     resolution: {integrity: sha512-463v3ZeIrcWtdgIg6vI6XUncguvr2TnGl4SzDXinkt9mSLpBJKXT3mW6xT3VQdDN11+WVs29pgvivTc4Lp8v+w==}
     engines: {node: '>=8'}
-    dev: false
-
-  /dotenv/16.0.1:
-    resolution: {integrity: sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==}
-    engines: {node: '>=12'}
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
