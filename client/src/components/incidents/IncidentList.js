@@ -1,10 +1,11 @@
-import { Table } from '@mantine/core';
-import React from 'react';
-import { useIncidents } from '../../api/incident';
+import { ActionIcon, Table } from '@mantine/core';
 import StatusBadge from '../common/StatusBadge';
-import CenteredLoader from '../common/CenteredLoader';
+import { IconEye } from '@tabler/icons';
 
-function Incident({ data }) {
+import CenteredLoader from '../common/CenteredLoader';
+import { useIncidents } from '../../api/incident';
+
+function Incident({ data, setIncidentId }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();
 
   return (
@@ -14,11 +15,20 @@ function Incident({ data }) {
       <td>
         <StatusBadge status={data.status} />
       </td>
+      <td>
+        <ActionIcon
+          onClick={() => setIncidentId(data._id)}
+          title="Details"
+        >
+          <IconEye />
+        </ActionIcon>
+        {/* <Button>Details</Button> */}
+      </td>
     </tr>
   );
 }
 
-function IncidentList() {
+function IncidentList({ setIncidentId }) {
   const { incidents, isLoading, error } = useIncidents();
 
   if (isLoading) {
@@ -34,12 +44,13 @@ function IncidentList() {
   }
 
   return (
-    <Table>
+    <Table highlightOnHover>
       <thead>
         <tr>
           <th>Project</th>
           <th>Detected on</th>
           <th>Status</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -47,6 +58,7 @@ function IncidentList() {
           <Incident
             key={incident._id}
             data={incident}
+            setIncidentId={setIncidentId}
           />
         ))}
       </tbody>

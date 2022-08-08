@@ -11,3 +11,13 @@ export function useIncidents() {
     error,
   };
 }
+
+export function useIncident(id) {
+  const { data, error } = useSWR(id ? `http://localhost:5000/incidents/${id}` : null, fetcher);
+
+  return {
+    incident: data,
+    isLoading: !error && !data,
+    error,
+  };
+}
