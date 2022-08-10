@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+import axios from 'axios';
 
 import { fetcher } from '../api/fetcher';
 
@@ -20,4 +21,12 @@ export function useIncident(id) {
     isLoading: !error && !data,
     error,
   };
+}
+
+export function updateIncidentStatus(incidentId, newStatus) {
+  return axios.patch(
+    `http://localhost:5000/incidents/${incidentId}/update/status`,
+    { status: newStatus },
+    { withCredentials: true }
+  );
 }
