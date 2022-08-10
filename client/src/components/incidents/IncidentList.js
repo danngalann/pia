@@ -1,6 +1,5 @@
-import { ActionIcon, Table } from '@mantine/core';
+import { Table } from '@mantine/core';
 import StatusBadge from '../common/StatusBadge';
-import { IconEye } from '@tabler/icons';
 
 import CenteredLoader from '../common/CenteredLoader';
 import { useIncidents } from '../../api/incident';
@@ -9,20 +8,14 @@ function Incident({ data, setIncidentId }) {
   const dateFormatted = new Date(data.createdAt).toLocaleString();
 
   return (
-    <tr>
+    <tr
+      onClick={() => setIncidentId(data._id)}
+      style={{ cursor: 'pointer' }}
+    >
       <td>{data.project}</td>
       <td>{dateFormatted}</td>
       <td>
         <StatusBadge status={data.status} />
-      </td>
-      <td>
-        <ActionIcon
-          onClick={() => setIncidentId(data._id)}
-          title="Details"
-        >
-          <IconEye />
-        </ActionIcon>
-        {/* <Button>Details</Button> */}
       </td>
     </tr>
   );
@@ -50,7 +43,6 @@ function IncidentList({ setIncidentId }) {
           <th>Project</th>
           <th>Detected on</th>
           <th>Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
