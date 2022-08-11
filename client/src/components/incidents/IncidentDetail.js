@@ -1,7 +1,7 @@
 import { forwardRef, useState } from 'react';
-import { Code, ColorSwatch, Grid, Group, List, Modal, ScrollArea, Select, Text } from '@mantine/core';
+import { Code, ColorSwatch, Grid, Group, List, Modal, ScrollArea, Select, Text, Timeline, Title } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
-import { IconX, IconCheck } from '@tabler/icons';
+import { IconX, IconCheck, IconNotebook } from '@tabler/icons';
 
 import { updateIncidentStatus, useIncident } from '../../api/incident';
 import CenteredLoader from '../common/CenteredLoader';
@@ -13,7 +13,6 @@ export default function IncidentDetail({ incidentId, setIncidentId }) {
     <Modal
       opened={incidentId !== null}
       onClose={() => setIncidentId(null)}
-      title="Incident details"
       size="60%"
       overlayBlur={2}
       closeButtonLabel="Close incident detail modal"
@@ -75,12 +74,18 @@ function IncidentModalContent({ incident }) {
 
   return (
     <Grid>
-      <Grid.Col span={6}>
-        <h1>{incident.project}</h1>
+      <Grid.Col md={6}>
+        <Title order={1}>{incident.project}</Title>
       </Grid.Col>
-      <Grid.Col span={6}>
+      <Grid.Col md={6}>
+        <Title
+          order={3}
+          style={{ marginBottom: 10 }}
+        >
+          Status
+        </Title>
         <Select
-          label="Status"
+          aria-label="Status"
           data={[
             { value: 'open', label: 'Open', color: 'red', description: 'No one is looking at it yet' },
             {
@@ -97,25 +102,64 @@ function IncidentModalContent({ incident }) {
           itemComponent={StatusSelectItem}
         />
       </Grid.Col>
-      <Grid.Col span={6}>
-        <Text>The error was first received at {dateFormatted}.</Text>
-        <Text>
-          The message was: <Code>{incident.message}</Code>
-        </Text>
-      </Grid.Col>
-      <Grid.Col span={6}>
-        <Text>Occurrences:</Text>
+      <Grid.Col md={6}>
+        <Title
+          order={3}
+          style={{ marginBottom: 10 }}
+        >
+          Details
+        </Title>
+
         <ScrollArea
-          style={{ height: 150, width: 300 }}
+          style={{ height: 150, width: '100%' }}
           type="auto"
           offsetScrollbars
         >
-          <List type="ordered">
-            {incident.ocurred_at.map(date => {
+          <Text>The error was first received at {dateFormatted}.</Text>
+          <Text>The message was:</Text>
+          <Code block>{incident.message}</Code>
+        </ScrollArea>
+      </Grid.Col>
+      <Grid.Col md={6}>
+        <Title
+          order={3}
+          style={{ marginBottom: 10 }}
+        >
+          Timeline
+        </Title>
+        <ScrollArea
+          style={{ height: 150, width: '100%' }}
+          type="auto"
+          offsetScrollbars
+        >
+          <Timeline>
+            {incident.ocurred_at.map((date, index) => {
               const dateFormatted = new Date(date).toLocaleString();
-              return <List.Item key={date}>{dateFormatted}</List.Item>;
+              return (
+                <Timeline.Item
+                  key={index}
+                  title="Incident received"
+                  bullet={<IconNotebook size={12} />}
+                >
+                  {index === 0 ? (
+                    <Text
+                      size="sm"
+                      color="dimmed"
+                    >
+                      Incident was first logged at {dateFormatted}
+                    </Text>
+                  ) : (
+                    <Text
+                      size="sm"
+                      color="dimmed"
+                    >
+                      Incident was logged again at {dateFormatted}
+                    </Text>
+                  )}
+                </Timeline.Item>
+              );
             })}
-          </List>
+          </Timeline>
         </ScrollArea>
       </Grid.Col>
       <Grid.Col span={12}>
