@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Code, Grid, List, Modal, ScrollArea, Select, Text } from '@mantine/core';
+import { forwardRef, useState } from 'react';
+import { Code, ColorSwatch, Grid, Group, List, Modal, ScrollArea, Select, Text } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconX, IconCheck } from '@tabler/icons';
 
@@ -22,6 +22,26 @@ export default function IncidentDetail({ incidentId, setIncidentId }) {
     </Modal>
   );
 }
+
+const StatusSelectItem = forwardRef(({ label, description, color, ...others }, ref) => {
+  return (
+    <div
+      ref={ref}
+      {...others}
+    >
+      <Group>
+        <ColorSwatch
+          color={color}
+          size={10}
+        />
+        <div>
+          <Text size="sm">{label}</Text>
+          <Text size="xs">{description}</Text>
+        </div>
+      </Group>
+    </div>
+  );
+});
 
 function IncidentModalContent({ incident }) {
   const dateFormatted = new Date(incident.ocurred_at[0]).toLocaleString();
@@ -62,13 +82,19 @@ function IncidentModalContent({ incident }) {
         <Select
           label="Status"
           data={[
-            { value: 'open', label: 'Open' },
-            { value: 'investigating', label: 'Investigating' },
-            { value: 'identified', label: 'Identified' },
-            { value: 'closed', label: 'Closed' },
+            { value: 'open', label: 'Open', color: 'red', description: 'No one is looking at it yet' },
+            {
+              value: 'investigating',
+              label: 'Investigating',
+              color: 'yellow',
+              description: 'Someone is taking a look',
+            },
+            { value: 'identified', label: 'Identified', color: 'indigo', description: 'Bug located but not resolved' },
+            { value: 'closed', label: 'Closed', color: 'green', description: 'Issue resolved' },
           ]}
           value={status}
           onChange={updateStatus}
+          itemComponent={StatusSelectItem}
         />
       </Grid.Col>
       <Grid.Col span={6}>
