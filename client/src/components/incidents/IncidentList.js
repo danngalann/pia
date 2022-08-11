@@ -5,7 +5,7 @@ import CenteredLoader from '../common/CenteredLoader';
 import { useIncidents } from '../../api/incident';
 
 function Incident({ data, setIncidentId }) {
-  const dateFormatted = new Date(data.createdAt).toLocaleString();
+  const dateFormatted = new Date(data.updatedAt).toLocaleString();
 
   return (
     <tr
@@ -42,7 +42,7 @@ function IncidentList({ setIncidentId }) {
       <thead>
         <tr>
           <th>Project</th>
-          <th>Detected on</th>
+          <th>Last update</th>
           <th>Status</th>
           <th>Times occurred</th>
         </tr>

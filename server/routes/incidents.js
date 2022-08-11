@@ -5,6 +5,7 @@ const { sha256 } = require('../utils/crypto');
 
 router.route('/').get(authenticationMiddleware, (req, res) => {
   Incident.find()
+    .sort([['updatedAt', -1]])
     .then(incidents => res.json(incidents))
     .catch(err => res.status(400).json('Error: ' + err));
 });
