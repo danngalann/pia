@@ -17,6 +17,7 @@ function Incident({ data, setIncidentId }) {
       <td>
         <StatusBadge status={data.status} />
       </td>
+      <td>{data.ocurred_at.length}</td>
     </tr>
   );
 }
@@ -43,6 +44,7 @@ function IncidentList({ setIncidentId }) {
           <th>Project</th>
           <th>Detected on</th>
           <th>Status</th>
+          <th>Times occurred</th>
         </tr>
       </thead>
       <tbody>
