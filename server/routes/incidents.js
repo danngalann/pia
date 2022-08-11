@@ -33,8 +33,9 @@ router.route('/add').post((req, res) => {
   const message = req.body.message;
   const trace = req.body.trace;
   const trace_hash = sha256(JSON.stringify(trace));
+  const ocurred_at = [Date.now()];
 
-  const newIncident = new Incident({ project, message, trace, trace_hash });
+  const newIncident = new Incident({ project, message, trace, trace_hash, ocurred_at });
 
   newIncident
     .save()

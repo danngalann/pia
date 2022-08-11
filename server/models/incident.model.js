@@ -30,6 +30,10 @@ const incidentSchema = new Schema(
       required: true,
       unique: true,
     },
+    ocurred_at: {
+      type: [Date],
+      required: true,
+    },
   },
   { timestamps: true }
 );
