@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authenticationMiddleware = require('../auth/authenticationMiddleware');
 const Incident = require('../models/incident.model');
+const { sha256 } = require('../utils/crypto');
 
 router.route('/').get(authenticationMiddleware, (req, res) => {
   Incident.find()
@@ -31,8 +32,9 @@ router.route('/add').post((req, res) => {
   const project = req.body.project;
   const message = req.body.message;
   const trace = req.body.trace;
+  const trace_hash = sha256(JSON.stringify(trace));
 
-  const newIncident = new Incident({ project, message, trace });
+  const newIncident = new Incident({ project, message, trace, trace_hash });
 
   newIncident
     .save()

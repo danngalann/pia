@@ -25,6 +25,11 @@ const incidentSchema = new Schema(
       type: Array,
       required: true,
     },
+    trace_hash: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   { timestamps: true }
 );
