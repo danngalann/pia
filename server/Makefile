@@ -1,2 +1,2 @@
 build:
-	docker build -t server .
+	docker build -t pia_server .

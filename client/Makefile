@@ -1,2 +1,2 @@
 build-dev:
-	docker build -t client -f Dockerfile .
+	docker build -t pia_client -f Dockerfile .

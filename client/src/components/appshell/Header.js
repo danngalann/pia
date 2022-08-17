@@ -36,7 +36,7 @@ export default function Header() {
       <header style={{ display: 'flex', justifyContent: 'space-between', margin: '1rem 1.5rem' }}>
         <Title>PIA</Title>
         <Group>
-          <Button
+          {/* <Button
             leftIcon={<IconSearch />}
             variant="default"
             rightIcon={
@@ -51,7 +51,7 @@ export default function Header() {
             onClick={() => openSpotlight()}
           >
             Search
-          </Button>
+          </Button> */}
           <Anchor
             href="https://github.com/danngalann/pia"
             target="_blank"
