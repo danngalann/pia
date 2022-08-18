@@ -1,4 +1,4 @@
-import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, Button } from '@mantine/core';
+import { Center, createStyles, Stack, Title, TextInput, PasswordInput, Button } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
@@ -30,9 +30,10 @@ export default function Login() {
         navigate('/incidents');
       })
       .catch(err => {
+        console.log(err);
         showNotification({
           title: 'Error',
-          message: err.message,
+          message: err.response.data,
           icon: <IconX />,
           color: 'red',
           autoClose: 5000,

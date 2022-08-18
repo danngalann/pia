@@ -35,7 +35,7 @@ export default function Setup() {
       .catch(err => {
         showNotification({
           title: 'Error',
-          message: err.message,
+          message: err.response.data,
           icon: <IconX />,
           color: 'red',
           autoClose: 5000,
