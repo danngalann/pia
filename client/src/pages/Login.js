@@ -1,12 +1,12 @@
 import { Center, createStyles, Stack, Title, Text, TextInput, PasswordInput, Button } from '@mantine/core';
-import { useForm } from '@mantine/form';
+import { useNavigate } from 'react-router-dom';
 import { showNotification } from '@mantine/notifications';
 import { IconLock, IconAt, IconX } from '@tabler/icons';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from '@mantine/form';
 
-import { createUser, login } from '../../api/user';
+import { login } from '../api/user';
 
-export default function Setup() {
+export default function Login() {
   const { classes } = useStyles();
   const navigate = useNavigate();
 
@@ -17,7 +17,6 @@ export default function Setup() {
     },
     validate: {
       email: value => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-      password: value => (value.length < 8 ? 'Password must be at least 8 characters' : null),
     },
   });
 
@@ -26,11 +25,9 @@ export default function Setup() {
       ...formData,
     };
 
-    createUser(userData)
+    login(userData)
       .then(() => {
-        login(userData).then(() => {
-          navigate('/incidents');
-        });
+        navigate('/incidents');
       })
       .catch(err => {
         showNotification({
@@ -51,12 +48,8 @@ export default function Setup() {
       >
         <div>
           <Center>
-            <Title>Add your first account</Title>
+            <Title>Login</Title>
           </Center>
-          <Text size="xs">
-            Add your first account to complete application setup. This account will act as the main application
-            administrator.
-          </Text>
         </div>
         <form>
           <Stack>
@@ -77,7 +70,7 @@ export default function Setup() {
               required
               {...form.getInputProps('password')}
             />
-            <Button onClick={form.onSubmit(submitUser)}>Finish setup</Button>
+            <Button onClick={form.onSubmit(submitUser)}>Login</Button>
           </Stack>
         </form>
       </Stack>
@@ -91,6 +84,6 @@ const useStyles = createStyles(theme => ({
     padding: 40,
     borderRadius: 10,
     boxShadow: theme.shadows.md,
-    maxWidth: 500,
+    width: 500,
   },
 }));

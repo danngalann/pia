@@ -12,6 +12,10 @@ export default function ApiConfig({ children }) {
             // Don't show errors for token refresh. It's handled by retries.
             return;
           }
+          if (error.name === 'AxiosError' && error.response.status === 401) {
+            // Don't show errors for unauthenticared. Redirects to login.
+            return;
+          }
           showNotification({
             title: 'Error',
             message: error.message,

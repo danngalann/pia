@@ -1,5 +1,6 @@
 import { Table } from '@mantine/core';
 import StatusBadge from '../common/StatusBadge';
+import { useNavigate } from 'react-router-dom';
 
 import CenteredLoader from '../common/CenteredLoader';
 import { useIncidents } from '../../api/incident';
@@ -23,6 +24,7 @@ function Incident({ data, setIncidentId }) {
 }
 
 function IncidentList({ setIncidentId }) {
+  const navigate = useNavigate();
   const { incidents, isLoading, error } = useIncidents();
 
   if (isLoading) {
@@ -30,8 +32,14 @@ function IncidentList({ setIncidentId }) {
   }
 
   if (error) {
+    // Access token expired, wait for it to be refreshed
     if (error.name === 'AxiosError' && error.response.status === 403) {
       return <CenteredLoader />;
+    }
+
+    // Not authenticated
+    if (error.name === 'AxiosError' && error.response.status === 401) {
+      navigate('/login');
     }
 
     return <div>{error.message}</div>;

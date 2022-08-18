@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Incidents from './pages/Incidents';
 import ApiConfig from './components/api/ApiConfig';
+import Login from './pages/Login';
 
 function App() {
   // Try to detect the user's preferred color scheme via media query
@@ -45,6 +46,10 @@ function App() {
                 <Route
                   path="/incidents"
                   element={<Incidents />}
+                />
+                <Route
+                  path="/login"
+                  element={<Login />}
                 />
               </Routes>
             </BrowserRouter>
