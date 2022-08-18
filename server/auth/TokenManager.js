@@ -34,7 +34,7 @@ class TokenManager {
 
   async _getPersistedRefreshTokens() {
     const users = await User.find().exec();
-    return users.map(user => user.refreshToken);
+    return users.map(user => user.refreshTokens).flat();
   }
 }
 

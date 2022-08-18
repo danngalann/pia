@@ -35,7 +35,7 @@ router.route('/login').post((req, res) => {
         const refreshToken = tokenManager.generateRefreshToken({ email });
         const accessToken = tokenManager.generateAccessToken({ email });
 
-        user.refreshToken = refreshToken;
+        user.refreshTokens.push(refreshToken);
 
         user
           .save()
