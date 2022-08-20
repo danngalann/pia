@@ -1,0 +1,43 @@
+version: '3.1'
+
+services:
+  server:
+    image: pia_server
+    container_name: pia_server
+    build: ./server/
+    ports:
+      - "5000:5000"
+    networks:
+      - pia
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URL: mongodb://mongo/pia
+      FRONTEND_URL: "${FRONTEND_URL}" # For CORS
+      JWT_SECRET: "${JWT_SECRET}"
+      JWT_REFRESH_TOKEN: "${JWT_REFRESH_TOKEN}"
+  client:
+    image: pia_client
+    container_name: pia_client
+    build: ./client/
+    ports:
+      - "80:80"
+    networks:
+      - pia
+  mongo:
+    container_name: pia_db
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - pia
+
+networks:
+  pia:
+    driver: bridge
+volumes:
+  mongodb-data:
+    driver: local
