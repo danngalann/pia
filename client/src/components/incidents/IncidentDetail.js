@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import {
   Code,
   ColorSwatch,
@@ -66,6 +66,10 @@ function IncidentModalContent({ incident, updateIncident }) {
   const dateFormatted = new Date(incident.ocurred_at[0]).toLocaleString();
   const [status, setStatus] = useState(incident.status);
   const { colorScheme } = useMantineColorScheme();
+
+  useEffect(() => {
+    setStatus(incident.status);
+  }, [incident]);
 
   const updateStatus = newStatus => {
     const oldStatus = status;
