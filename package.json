@@ -8,7 +8,10 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{js,jsx,json}": "prettier --config=.prettierrc --write"
+    "*.{js,jsx,json}": [
+      "eslint --fix -c .eslintrc",
+      "prettier --config=.prettierrc --write"
+    ]
   },
   "devDependencies": {
     "eslint": "^8.23.0",
