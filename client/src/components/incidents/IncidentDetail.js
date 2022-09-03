@@ -19,7 +19,7 @@ import { JSONTree } from 'react-json-tree';
 import { updateIncidentStatus, useIncident } from '../../api/incident';
 import CenteredLoader from '../common/CenteredLoader';
 
-export default function IncidentDetail({ incidentId, setIncidentId }) {
+export default function IncidentDetail({ incidentId, setIncidentId, updateIncident }) {
   const { incident, isLoading, error } = useIncident(incidentId);
 
   return (
@@ -30,7 +30,14 @@ export default function IncidentDetail({ incidentId, setIncidentId }) {
       overlayBlur={2}
       closeButtonLabel="Close incident detail modal"
     >
-      {isLoading ? <CenteredLoader /> : <IncidentModalContent incident={incident} />}
+      {isLoading ? (
+        <CenteredLoader />
+      ) : (
+        <IncidentModalContent
+          incident={incident}
+          updateIncident={updateIncident}
+        />
+      )}
     </Modal>
   );
 }
@@ -55,7 +62,7 @@ const StatusSelectItem = forwardRef(({ label, description, color, ...others }, r
   );
 });
 
-function IncidentModalContent({ incident }) {
+function IncidentModalContent({ incident, updateIncident }) {
   const dateFormatted = new Date(incident.ocurred_at[0]).toLocaleString();
   const [status, setStatus] = useState(incident.status);
   const { colorScheme } = useMantineColorScheme();
@@ -63,6 +70,7 @@ function IncidentModalContent({ incident }) {
   const updateStatus = newStatus => {
     const oldStatus = status;
     setStatus(newStatus);
+    updateIncident({ ...incident, status: newStatus });
 
     updateIncidentStatus(incident._id, newStatus)
       .then(() => {
@@ -83,6 +91,7 @@ function IncidentModalContent({ incident }) {
           autoClose: 5000,
         });
         setStatus(oldStatus);
+        updateIncident({ ...incident, status: oldStatus });
       });
   };
 
