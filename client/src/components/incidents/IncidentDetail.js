@@ -4,7 +4,6 @@ import {
   ColorSwatch,
   Grid,
   Group,
-  List,
   Modal,
   ScrollArea,
   Select,

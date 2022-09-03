@@ -1,5 +1,5 @@
-import { ActionIcon, Anchor, Badge, Button, Group, Title, useMantineColorScheme } from '@mantine/core';
-import { SpotlightProvider, openSpotlight } from '@mantine/spotlight';
+import { ActionIcon, Anchor, Group, Title, useMantineColorScheme } from '@mantine/core';
+import { SpotlightProvider } from '@mantine/spotlight';
 import { IconSun, IconMoonStars, IconSearch, IconBrandGithub } from '@tabler/icons';
 
 // TODO This information should come from API
