@@ -1,7 +1,21 @@
 import { forwardRef, useState } from 'react';
-import { Code, ColorSwatch, Grid, Group, List, Modal, ScrollArea, Select, Text, Timeline, Title } from '@mantine/core';
+import {
+  Code,
+  ColorSwatch,
+  Grid,
+  Group,
+  List,
+  Modal,
+  ScrollArea,
+  Select,
+  Text,
+  Timeline,
+  Title,
+  useMantineColorScheme,
+} from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
 import { IconX, IconCheck, IconNotebook } from '@tabler/icons';
+import { JSONTree } from 'react-json-tree';
 
 import { updateIncidentStatus, useIncident } from '../../api/incident';
 import CenteredLoader from '../common/CenteredLoader';
@@ -45,6 +59,7 @@ const StatusSelectItem = forwardRef(({ label, description, color, ...others }, r
 function IncidentModalContent({ incident }) {
   const dateFormatted = new Date(incident.ocurred_at[0]).toLocaleString();
   const [status, setStatus] = useState(incident.status);
+  const { colorScheme } = useMantineColorScheme();
 
   const updateStatus = newStatus => {
     const oldStatus = status;
@@ -70,6 +85,27 @@ function IncidentModalContent({ incident }) {
         });
         setStatus(oldStatus);
       });
+  };
+
+  const jsonTheme = {
+    scheme: 'monokai',
+    author: 'wimer hazenberg (http://www.monokai.nl)',
+    base00: '#272822',
+    base01: '#383830',
+    base02: '#49483e',
+    base03: '#75715e',
+    base04: '#a59f85',
+    base05: '#f8f8f2',
+    base06: '#f5f4f1',
+    base07: '#f9f8f5',
+    base08: '#f92672',
+    base09: '#fd971f',
+    base0A: '#f4bf75',
+    base0B: '#a6e22e',
+    base0C: '#a1efe4',
+    base0D: '#66d9ef',
+    base0E: '#ae81ff',
+    base0F: '#cc6633',
   };
 
   return (
@@ -164,7 +200,11 @@ function IncidentModalContent({ incident }) {
       </Grid.Col>
       <Grid.Col span={12}>
         <p>The trace was:</p>
-        <Code block>{JSON.stringify(incident.trace, null, 2)}</Code>
+        <JSONTree
+          data={incident.trace}
+          theme={jsonTheme}
+          invertTheme={colorScheme !== 'dark'}
+        />
       </Grid.Col>
     </Grid>
   );
