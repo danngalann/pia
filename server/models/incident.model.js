@@ -25,6 +25,10 @@ const incidentSchema = new Schema(
       type: Array,
       required: true,
     },
+    extra_data: {
+      type: Array,
+      required: false,
+    },
     trace_hash: {
       type: String,
       required: true,

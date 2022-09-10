@@ -33,6 +33,7 @@ router.route('/add').post((req, res) => {
   const project = req.body.project;
   const message = req.body.message;
   const trace = req.body.trace;
+  const extra_data = req.body.extra_data;
   const trace_hash = sha256(JSON.stringify(trace));
 
   Incident.findOne({ trace_hash }).then(incident => {
@@ -45,7 +46,7 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json(err.message));
     } else {
       const ocurred_at = [Date.now()];
-      const newIncident = new Incident({ project, message, trace, trace_hash, ocurred_at });
+      const newIncident = new Incident({ project, message, trace, trace_hash, ocurred_at, extra_data });
 
       newIncident
         .save()

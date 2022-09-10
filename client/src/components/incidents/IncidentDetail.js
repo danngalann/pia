@@ -218,6 +218,16 @@ function IncidentModalContent({ incident, updateIncident }) {
           invertTheme={colorScheme !== 'dark'}
         />
       </Grid.Col>
+      {incident.extra_data.length > 0 && (
+        <Grid.Col span={12}>
+          <p>Extra data was received:</p>
+          <JSONTree
+            data={incident.extra_data}
+            theme={jsonTheme}
+            invertTheme={colorScheme !== 'dark'}
+          />
+        </Grid.Col>
+      )}
     </Grid>
   );
 }
