@@ -48,6 +48,10 @@ function App() {
                   element={<Incidents />}
                 />
                 <Route
+                  path="/incidents/:id"
+                  element={<Incidents />}
+                />
+                <Route
                   path="/login"
                   element={<Login />}
                 />

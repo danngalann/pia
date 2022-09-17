@@ -1,14 +1,15 @@
 import IncidentList from '../components/incidents/IncidentList';
 import Page from '../components/page/Page';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import IncidentDetail from '../components/incidents/IncidentDetail';
 import { useIncidents } from '../api/incident';
 import CenteredLoader from '../components/common/CenteredLoader';
 
 export default function Incidents() {
+  const { id } = useParams();
   const { incidents, isLoading, error } = useIncidents();
-  const [incidentId, setIncidentId] = useState(null);
+  const [incidentId, setIncidentId] = useState(id ?? null);
   const [incidentList, setIncidentList] = useState([]);
   const navigate = useNavigate();
 
@@ -22,6 +23,16 @@ export default function Incidents() {
         return incident;
       });
     });
+  };
+
+  const updateIncidentId = id => {
+    setIncidentId(id);
+
+    if (id) {
+      navigate(`/incidents/${id}`);
+    } else {
+      navigate('/incidents');
+    }
   };
 
   useEffect(() => {
@@ -47,13 +58,13 @@ export default function Incidents() {
   return (
     <Page>
       <IncidentList
-        setIncidentId={setIncidentId}
+        setIncidentId={updateIncidentId}
         incidents={incidentList}
         isLoading={isLoading}
       />
       <IncidentDetail
         incidentId={incidentId}
-        setIncidentId={setIncidentId}
+        setIncidentId={updateIncidentId}
         updateIncident={updateIncident}
       />
     </Page>
